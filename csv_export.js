@@ -2,7 +2,6 @@ const csv = require('csv')
 const fs = require('fs')
 
 
-
 const columns = {
   name: '名前',
   old: '歳',
@@ -33,6 +32,7 @@ const data = [
     look: 'cute'
   }
 ]
+
 
 const stringifier = csv.stringify({ header: true, columns: columns });
 const writableStream = fs.createWriteStream('export.csv', { encoding: 'utf-8' });
