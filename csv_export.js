@@ -1,6 +1,7 @@
 const csv = require('csv')
 const fs = require('fs')
-
+const admin = require('firebase-admin');
+const serviceAccount = require('./myfirebasechatapp-ed95d-firebase-adminsdk-vcd3o-03d7a434ad.json');
 
 const columns = {
   name: '名前',
@@ -32,11 +33,25 @@ const data = [
     voice: 'nyan',
     look: 'cute'
   }
-]
+];
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 const stringifier = csv.stringify({ header: true, columns: columns });
 const writableStream = fs.createWriteStream('export.csv', { encoding: 'utf-8' });
 stringifier.pipe(writableStream);
-data.forEach(e => { stringifier.write(e); });
 
+const db = admin.firestore();
+db.collection('col').get()
+  .then((snapshot) => {
+    snapshot.forEach((doc) => {
+      // console.log(doc.id, '=>', doc.data());
+      stringifier.write(doc.data());
+    });
+  })
+  .catch((err) => {
+    console.log('Error getting documents', err);
+  });
+// data.forEach(e => { stringifier.write(e); });
