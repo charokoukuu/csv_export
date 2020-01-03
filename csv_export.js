@@ -38,7 +38,5 @@ const data = [
 const stringifier = csv.stringify({ header: true, columns: columns });
 const writableStream = fs.createWriteStream('export.csv', { encoding: 'utf-8' });
 stringifier.pipe(writableStream);
-
 data.forEach(e => { stringifier.write(e); });
-// for (var i = 0; i < data.length; i++) { stringifier.write(data[i]); }
 
