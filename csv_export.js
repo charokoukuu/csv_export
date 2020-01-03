@@ -20,10 +20,11 @@ const data = [
     place: 'home',
     color: 'red tabby',
     voice: 'nyan',
-    look: 'cute'
+    look: 'cute',
+    text: "hello"
   },
   {
-    name: 'charo',
+    name: 'neko',
     old: '82',
     type: 'cat',
     place: 'home',
@@ -38,6 +39,6 @@ const stringifier = csv.stringify({ header: true, columns: columns });
 const writableStream = fs.createWriteStream('export.csv', { encoding: 'utf-8' });
 stringifier.pipe(writableStream);
 
-
-for (var i = 0; i < data.length; i++) { stringifier.write(data[i]); }
+data.forEach(e => { stringifier.write(e); });
+// for (var i = 0; i < data.length; i++) { stringifier.write(data[i]); }
 
